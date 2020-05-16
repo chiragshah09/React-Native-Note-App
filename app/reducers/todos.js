@@ -24,6 +24,12 @@ export default function todos(state = [], action) {
                     bookmarked: false,
                 }
             ]
+
+        case 'EDIT_NOTE':
+            return state.map(todo =>
+                (todo.id === action.id)
+                    ? { ...todo } : todo)
+
         default:
             return state
     }

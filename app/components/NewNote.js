@@ -11,7 +11,7 @@ class NewNote extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            postTitle: '',
+            postTitle: this.props.todoList.id ? this.props.todoList.postTitle : '',
             postNote: '',
         }
     }
@@ -51,6 +51,11 @@ class NewNote extends React.Component {
         noteDate = (d.getDate() + ' ' + month[d.getMonth()])
         console.log(noteDate)
 
+        if (postTitle == '')
+        postTitle = "Untitled"
+        if (postNote == '')
+        postNote = "Untitled"
+
         this.props.dispatch(addNote(postTitle, postNote, noteDate))
         this.setState({ postTitle: '', postNote: '' })
 
@@ -67,6 +72,7 @@ class NewNote extends React.Component {
                     backgroundColor={'#f0f0f0'}
                     barStyle='light-content'
                 />
+                {console.log('edit', this.props.todoList[0].id)}
                 <TextInput
                     style={styles.title}
                     // onChangeText={(text) => this.setState({ text })}
@@ -107,7 +113,17 @@ class NewNote extends React.Component {
     }
 }
 
-export default connect()(NewNote)
+function mapStateToProps(state) {
+    const { todos } = state
+    console.log("mapState: ", todos)
+    return { todoList: todos }
+  }
+
+//   const mapDispatchToProps = dispatch => ({
+//     addNote: (postTitle,postNote) => dispatch(addNote(postTitle,postNote))
+// })
+
+export default connect(mapStateToProps)(NewNote)
 
 const styles = StyleSheet.create({
     container: {

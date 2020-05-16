@@ -14,7 +14,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isEnabled: false,
+    }
+  }
+
+  toggleSwitch = () => {
+    this.setState({ isEnabled: !this.state.isEnabled })
+  }
+
   render() {
+
 
     // if (state.isLoading) {
     //   // We haven't finished checking for the token yet
@@ -42,23 +55,31 @@ export default class App extends React.Component {
                 headerLeft: null,
                 headerRight: () => (
                   <Switch
-                    // onPress={() => alert('This is a button!')}
-                    // title="Info"
-                    // color="#111"
-                  />) 
-                
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={this.state.isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    onValueChange={this.toggleSwitch}
+                    value={this.state.isEnabled}
+                  // onPress={() => alert('This is a button!')}
+                  // title="Info"
+                  // color="#111"
+                  />)
+
               }}
             />
 
             <Stack.Screen
               name="NewNote"
               component={NewNote}
-              options={{ title: 'Add a new note', headerRight: () => (
+              options={{
+                title: 'Add a new note', headerRight: () => (
                   <Button
                     onPress={() => alert('This is a button!')}
-                    title="Info"
-                    color="#111"
-                  />) }} />
+                    title="Bookmark"
+                    // color="#111"
+                    // fontColor="red"
+                    // paddingRight={20}
+                  />)
+              }} />
             {/* <Stack.Screen name="FlatList" component={FlatList} /> */}
             <Stack.Screen
               name="SplashScreen"
@@ -66,7 +87,7 @@ export default class App extends React.Component {
               options={{
                 title: 'Notes',
                 headerShown: false,
-                
+
                 // headerStyle: {
                 //   backgroundColor: '#166fd3',
                 // },
