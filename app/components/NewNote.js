@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         borderLeftWidth: 10,
         borderLeftColor: '#e91e63',
-        // textDecorationLine: todo.completed ? 'line-through' : 'none'
+        // textDecorationLine: todo.bookmarked ? 'line-through' : 'none'
     },
     noteDelete: {
         position: 'absolute',
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         right: 10,
     },
     noteDeleteText: {
-        // textDecorationLine: todo.completed ? 'line-through' : 'none',
+        // textDecorationLine: todo.bookmarked ? 'line-through' : 'none',
         color: 'white',
     }
 })

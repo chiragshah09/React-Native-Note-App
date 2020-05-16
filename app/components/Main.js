@@ -8,6 +8,7 @@ import { addTodo } from '../actions'
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar } from 'react-native'
 import { BackHandler } from 'react-native';
+import TodoList from './TodoList';
 
 
 class Main extends React.Component {
@@ -88,7 +89,7 @@ class Main extends React.Component {
         //         deleteMethod={() => this.deleteNote(key)} />
         // })
 
-        // const { navigate } = this.props.navigation;
+        const { navigation } = this.props;
 
         return (
 
@@ -115,7 +116,8 @@ class Main extends React.Component {
                     />
                 </View> */}
                 <ScrollView style={styles.scrollContainer}>
-                    <VisibleTodos />
+                    {/* <VisibleTodos navigation={navigation} /> */}
+                    <TodoList navigation={navigation} />
                     {/* {notes} */}
                 </ScrollView>
                 {/* <Button

@@ -5,14 +5,14 @@ export default function todos(state = [], action) {
                 ...state, {
                     id: action.id,
                     text: action.text,
-                    completed: false,
+                    bookmarked: false,
                 }
             ]
 
         case 'TOGGLE_TODO':
             return state.map(todo =>
                 (todo.id === action.id)
-                    ? { ...todo, completed: !todo.completed } : todo)
+                    ? { ...todo, bookmarked: !todo.bookmarked } : todo)
 
         case 'ADD_NOTE':
             return [
@@ -21,7 +21,7 @@ export default function todos(state = [], action) {
                     postTitle: action.postTitle,
                     postNote: action.postNote,
                     noteDate: action.noteDate,
-                    completed: false,
+                    bookmarked: false,
                 }
             ]
         default:

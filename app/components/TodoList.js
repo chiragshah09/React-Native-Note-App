@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { connect } from 'react-redux'
+import { toggleTodo } from '../actions'
 
 const TodoList = ({ todos, toggleTodo, navigation }) => (
     <View
@@ -9,14 +11,15 @@ const TodoList = ({ todos, toggleTodo, navigation }) => (
                 <TouchableOpacity
                     key={todo.id}
                     style={styles.note}
-                    onPress={() => this.props.navigation.navigate('NewNote')}
+                    onPress={() => toggleTodo(todo.id)}
                 >
                     {console.log(todo)}
                     <Text
                         numberOfLines={1}
 
                         style={{
-                            textDecorationLine: todo.completed ? 'line-through' : 'none', paddingLeft: 0, paddingBottom: 5,
+                            // textDecorationLine: todo.bookmarked ? 'line-through' : 'none',
+                            paddingLeft: 0, paddingBottom: 5,
                             fontWeight: "bold", paddingRight: 80
                             // fontSize: 20,
                             // borderLeftWidth: 10,
@@ -25,16 +28,20 @@ const TodoList = ({ todos, toggleTodo, navigation }) => (
 
                     // style={styles.noteText}
                     >{todo.postTitle}</Text>
-                    <Text style={styles.currDate}>{todo.noteDate}</Text>
+                    <View style={styles.currDate}>
+                        {todo.bookmarked ?
+                            <Image style={styles.bookmark} height={20} width={20} source={require('../../assets/icons8-bookmark-48.png')} /> : null}
+                        <Text style={styles.noteDate}>{todo.noteDate}</Text>
+                    </View>
                     <Text
                         numberOfLines={1}
                         ellipsizeMode='tail'
                         style={{
-                            textDecorationLine: todo.completed ? 'line-through' : 'none', paddingLeft: 0, paddingRight: 20, color: 'grey'
+                            // textDecorationLine: todo.bookmarked ? 'line-through' : 'none',
+                            paddingLeft: 0, paddingRight: 20, color: 'grey',
                             // borderLeftWidth: 10,
                             // borderLeftColor: '#e91e63',
                             // paddingBottom: 10,
-                            // borderBottomWidth: 1,
                             // borderBottomColor: 'lightgrey',
                         }}
 
@@ -42,14 +49,23 @@ const TodoList = ({ todos, toggleTodo, navigation }) => (
                     >{todo.postNote}</Text>
 
                     {/* <TouchableOpacity onPress={() => toggleTodo(todo.id)} style={styles.noteDelete}>
-                    <Text style={styles.noteDeleteText}>{todo.completed ? 'Undone' : 'Done'}</Text>
+                    <Text style={styles.noteDeleteText}>{todo.bookmarked ? 'Undone' : 'Done'}</Text>
                 </TouchableOpacity> */}
                 </TouchableOpacity>
         )}
     </View >
 )
 
-export default TodoList
+const mapStateToProps = state => ({
+    todos: state.todos
+})
+
+const mapDispatchToProps = dispatch => ({
+    toggleTodo: id => dispatch(toggleTodo(id))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+
+// export default TodoList
 
 const styles = StyleSheet.create({
     note: {
@@ -72,14 +88,23 @@ const styles = StyleSheet.create({
         color: 'grey',
         // padding: 25,
         top: 15,
-        bottom: 10,
+        bottom: 50,
         right: 20,
+        flex: 1,
+        flexDirection: 'row',
+        // flexWrap: 'wrap'
+    },
+    noteDate: {
+        color: 'grey'
+    },
+    bookmark: {
+        right: 5,
     },
     noteText: {
         paddingLeft: 20,
         borderLeftWidth: 10,
         borderLeftColor: '#e91e63',
-        // textDecorationLine: todo.completed ? 'line-through' : 'none'
+        // textDecorationLine: todo.bookmarked ? 'line-through' : 'none'
     },
     noteDelete: {
         position: 'absolute',
@@ -92,7 +117,7 @@ const styles = StyleSheet.create({
         right: 10,
     },
     noteDeleteText: {
-        // textDecorationLine: todo.completed ? 'line-through' : 'none',
+        // textDecorationLine: todo.bookmarked ? 'line-through' : 'none',
         color: 'white',
     }
 })
