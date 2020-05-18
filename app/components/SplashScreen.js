@@ -15,7 +15,7 @@ class FlatList extends React.Component {
             // Right here we're telling it to navigate to the route
             // with the name 'App'.
             this.props.navigation.navigate('Home');
-        }, 4000);
+        }, 1000);
     }
 
     render() {

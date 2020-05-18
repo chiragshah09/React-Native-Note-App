@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux'
-import { toggleTodo, editNote } from '../actions'
+import { toggleTodo, editNote, updateEditId } from '../actions'
 
-const TodoList = ({ todos, editNote, toggleTodo, navigation }) => (
+const TodoList = ({ todos, editNote, updateEditId, toggleTodo, navigation }) => (
     <View
         style={styles.note1}>
         {todos.map(
@@ -12,9 +12,10 @@ const TodoList = ({ todos, editNote, toggleTodo, navigation }) => (
                     key={todo.id}
                     style={styles.note}
                     onPress={() => {
-                        toggleTodo(todo.id)
-                        // editNote(todo.id)
-                        // navigation.navigate("NewNote")
+                        // toggleTodo(todo.id)
+                        editNote(todo.id, todo.postTitle, todo.postNote)
+                        updateEditId(todo.id)
+                        navigation.navigate("NewNote")
                     }}
                 >
                     {console.log("todo: ", todo)}
@@ -66,7 +67,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     toggleTodo: id => dispatch(toggleTodo(id)),
-    editNote: id => dispatch(editNote(id))
+    editNote: (id, postTitle, postNote) => dispatch(editNote(id, postTitle, postNote)),
+    updateEditId: (id) => dispatch(updateEditId(id))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
 

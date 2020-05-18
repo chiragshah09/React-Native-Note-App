@@ -1,4 +1,4 @@
-import {ADD_TODO, TOGGLE_TODO, ADD_NOTE, EDIT_NOTE} from './actionTypes'
+import {ADD_TODO, TOGGLE_TODO, ADD_NOTE, EDIT_NOTE, UPDATE_EDIT_ID} from './actionTypes'
 
 nextID = 0
 todoID = 0
@@ -22,7 +22,22 @@ export const addNote = (postTitle, postNote, noteDate) => ({
     noteDate
 })
 
-export const editNote = (postTitle, postNote, noteDate, id) => ({
+// export const editNote = (id, postTitle, postNote, noteDate) => ({
+//     type: EDIT_NOTE,
+//     editId: id,
+//     editTitle: postTitle,
+//     editText: postNote,
+// })
+
+export const editNote = (id, postTitle, postNote, noteDate) => ({
     type: EDIT_NOTE,
-    id
+    id: id,
+    postTitle: postTitle,
+    postNote: postNote,
+    noteDate: noteDate,
+})
+
+export const updateEditId = (id) => ({
+    type: UPDATE_EDIT_ID,
+    id: id,
 })

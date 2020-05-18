@@ -71,7 +71,7 @@ export default class App extends React.Component {
               name="NewNote"
               component={NewNote}
               options={{
-                title: 'Add a new note', headerRight: () => (
+                title: '', headerRight: () => (
                   <Button
                     onPress={() => alert('This is a button!')}
                     title="Bookmark"

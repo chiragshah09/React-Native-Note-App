@@ -11,13 +11,26 @@ class NewNote extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            postTitle: this.props.todoList.id ? this.props.todoList.postTitle : '',
-            postNote: '',
+            // postTitle: '',
+            // postNote: '',
+            postTitle: this.props.todoList[0]?.editTitle ? this.props.todoList[0].editTitle :  '',
+            postNote: this.props.todoList[0]?.editText ? this.props.todoList[0].editText :  '',
+            // id: this.props.todoList[0]?.editId ? this.props.todoList[0].editId :  '',
+
+            // postTitle: (typeof this.props.todoList[0].editTitle === 'undefined') ? '' : this.props.todoList[0].editTitle,
+            // postNote: this.props.todoList[0].editText == 'undefined' ? '' : this.props.todoList[0].editText,
         }
     }
 
+    // componentDidMount() {
+    //     this.setState({
+    //         postTitle: (this.props.todoList[0].editTitle === undefined) ? '' : this.props.todoList[0].editTitle, postNote: this.props.todoList[0].editText === undefined ? this.props.todoList[0].editText : '',
+    //     })
+    // }
+
     addNote = (postTitle, postNote) => {
         console.log(postTitle, postNote)
+        // var id = this.props.todoList[0]?.editId ? this.props.todoList[0].editId :  ''
         // if (this.state.text) {
         //     var d = new Date()
         //     this.state.todos.push({
@@ -30,40 +43,41 @@ class NewNote extends React.Component {
         if ((postTitle == '') && (postNote == ''))
             // if (title && text == '')
             alert("Please enter some text")
-        else
-        {
+        else {
             var d = new Date()
-        var noteDate = ''
-        var month = new Array();
-        month[0] = "January";
-        month[1] = "February";
-        month[2] = "March";
-        month[3] = "April";
-        month[4] = "May";
-        month[5] = "June";
-        month[6] = "July";
-        month[7] = "August";
-        month[8] = "September";
-        month[9] = "October";
-        month[10] = "November";
-        month[11] = "December";
+            var noteDate = ''
+            var month = new Array();
+            month[0] = "January";
+            month[1] = "February";
+            month[2] = "March";
+            month[3] = "April";
+            month[4] = "May";
+            month[5] = "June";
+            month[6] = "July";
+            month[7] = "August";
+            month[8] = "September";
+            month[9] = "October";
+            month[10] = "November";
+            month[11] = "December";
 
-        noteDate = (d.getDate() + ' ' + month[d.getMonth()])
-        console.log(noteDate)
+            noteDate = (d.getDate() + ' ' + month[d.getMonth()])
+            console.log(noteDate)
 
-        if (postTitle == '')
-        postTitle = "Untitled"
-        if (postNote == '')
-        postNote = "Untitled"
+            if (postTitle == '')
+                postTitle = "Untitled"
+            if (postNote == '')
+                postNote = "Untitled"
 
-        this.props.dispatch(addNote(postTitle, postNote, noteDate))
-        this.setState({ postTitle: '', postNote: '' })
+            this.props.dispatch(addNote(postTitle, postNote, noteDate))
+            this.setState({ postTitle: '', postNote: '' })
 
-        this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Home')
         }
     }
 
     render() {
+        // const postTitle = this.props.todoList[0]?.editTitle ? this.props.todoList[0].editTitle :  ''
+        // const postText = this.props.todoList[0]?.editText ? this.props.todoList[0].editText :  ''
         return (
             // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={styles.container}>
@@ -72,7 +86,9 @@ class NewNote extends React.Component {
                     backgroundColor={'#f0f0f0'}
                     barStyle='light-content'
                 />
-                {console.log('edit', this.props.todoList[0].id)}
+
+                {console.log('edit', this.props.todoList)}
+
                 <TextInput
                     style={styles.title}
                     // onChangeText={(text) => this.setState({ text })}
@@ -81,7 +97,9 @@ class NewNote extends React.Component {
                     // placeholderTextColor='white'
                     backgroundColor='white'
                     value={this.state.postTitle}
+                    // value={postTitle}
                     onChangeText={(postTitle) => this.setState({ postTitle })}
+                    // onChangeText={(postTitle) => this.setState({ postTitle: postTitle })}
 
                 >
                 </TextInput>
@@ -96,15 +114,17 @@ class NewNote extends React.Component {
                     backgroundColor='white'
                     textAlignVertical="top"
                     value={this.state.postNote}
+                    // value={postText}
                     onChangeText={(postNote) => this.setState({ postNote })}
+                    // onChangeText={(postText) => this.setState({ postNote: postText })}
                 >
                 </TextInput>
 
                 <Button
                     style={styles.addNote}
-                    title="Add"
+                    title="Save"
                     // onPress={() => this.props.navigation.navigate('Home')}
-                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote)}
+                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote, this.state.id)}
                 />
 
             </View>
@@ -116,11 +136,11 @@ class NewNote extends React.Component {
 function mapStateToProps(state) {
     const { todos } = state
     console.log("mapState: ", todos)
-    return { todoList: todos }
-  }
+    return { todoList: todos, editId: todos.id }
+}
 
 //   const mapDispatchToProps = dispatch => ({
-//     addNote: (postTitle,postNote) => dispatch(addNote(postTitle,postNote))
+//     editNote: (postTitle,postNote) => dispatch(editNote(postTitle,postNote))
 // })
 
 export default connect(mapStateToProps)(NewNote)

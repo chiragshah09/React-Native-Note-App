@@ -22,13 +22,31 @@ export default function todos(state = [], action) {
                     postNote: action.postNote,
                     noteDate: action.noteDate,
                     bookmarked: false,
+                    // editTitle: '',
+                    // editTextL: ''
                 }
             ]
 
         case 'EDIT_NOTE':
             return state.map(todo =>
                 (todo.id === action.id)
-                    ? { ...todo } : todo)
+                    ? { ...todo, id: action.id, postTitle: action.postTitle, postText: action.postText } : todo)
+
+        case 'UPDATE_EDIT_ID':
+            return [
+                {
+                    id: action.id,
+                }
+            ]
+
+
+        // return [
+        //     ...state, {
+        //         // editId: action.editId,
+        //         editTitle: action.editTitle,
+        //         editText: action.editText,
+        //     }
+        // ]
 
         default:
             return state
