@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, Button
 import Note from './TodoList'
 import { connect } from 'react-redux'
 import VisibleTodos from '../containers/VisibleTodos'
-import { addTodo } from '../actions'
+import { addTodo, updateIsEditing, updateEditId } from '../actions'
 // import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar } from 'react-native'
@@ -90,7 +90,9 @@ class Main extends React.Component {
         // })
 
         const { navigation } = this.props;
-
+        // const { updateIsEditing } = updateIsEditing
+        const updateIsEditing = (flag) => this.props.updateIsEditing(flag);
+        const updateEditId = (id) => this.props.updateEditId(id);
         return (
 
             <View style={styles.container}>
@@ -117,7 +119,7 @@ class Main extends React.Component {
                 </View> */}
                 <ScrollView style={styles.scrollContainer}>
                     {/* <VisibleTodos navigation={navigation} /> */}
-                    <TodoList navigation={navigation} />
+                    <TodoList navigation={navigation}  />
                     {/* {notes} */}
                 </ScrollView>
                 {/* <Button
@@ -144,7 +146,9 @@ class Main extends React.Component {
                 <TouchableOpacity
                     onPress={() => {
                         // this.props.isEditing = false
-                        this.props.navigation.navigate('NewNote')
+                        updateIsEditing(false)
+                        updateEditId(-1)
+                        this.props.navigation.push('NewNote')
                         // addNote1
                     }}
                 style={styles.addButton}
@@ -162,7 +166,12 @@ function mapStateToProps(state) {
     return { todoList: todos, editId: todos.id, editingId: visibilityFilter.editingId, isEditing: visibilityFilter.isEditing }
 }
 
-export default connect(mapStateToProps)(Main)
+const mapDispatchToProps = dispatch => ({
+    updateIsEditing: (flag) => dispatch(updateIsEditing(flag)),
+    updateEditId: (id) => dispatch(updateEditId(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
 
 const styles = StyleSheet.create({
     container: {

@@ -28,6 +28,17 @@ class NewNote extends React.Component {
     //     })
     // }
 
+    // static getDerivedStateFromProps(props, state) {
+    //     if (props.postTitle !== state.postTitle) {
+    //         return {
+    //             postTitle: '',
+    //         };
+    //     }
+
+    //     // Return null to indicate no change to state.
+    //     return null;
+    // }
+
     addNote = (postTitle, postNote) => {
         console.log(postTitle, postNote)
         // var id = this.props.todoList[0]?.editId ? this.props.todoList[0].editId :  ''
@@ -70,6 +81,7 @@ class NewNote extends React.Component {
 
             this.props.isEditing ?
                 this.props.dispatch(editNote(this.props.editingId, postTitle, postNote, noteDate))
+
                 :
                 this.props.dispatch(addNote(postTitle, postNote, noteDate))
 
