@@ -14,7 +14,7 @@ export default function todos(state = [], action) {
                 (todo.id === action.id)
                     ? { ...todo, bookmarked: !todo.bookmarked } : todo)
 
-        case 'ADD_NOTE':
+       case 'ADD_NOTE':
             return [
                 ...state, {
                     id: action.id,
@@ -22,6 +22,7 @@ export default function todos(state = [], action) {
                     postNote: action.postNote,
                     noteDate: action.noteDate,
                     bookmarked: false,
+                    
                     // editTitle: '',
                     // editTextL: ''
                 }
@@ -30,14 +31,14 @@ export default function todos(state = [], action) {
         case 'EDIT_NOTE':
             return state.map(todo =>
                 (todo.id === action.id)
-                    ? { ...todo, id: action.id, postTitle: action.postTitle, postText: action.postText } : todo)
+                    ? { ...todo, id: action.id, postTitle: action.postTitle, postNote: action.postNote } : todo)
 
-        case 'UPDATE_EDIT_ID':
-            return [
-                {
-                    id: action.id,
-                }
-            ]
+        // case 'UPDATE_EDIT_ID':
+        //     return [
+        //         ...state, {
+        //             id: action.id,
+        //         }
+        //     ] 
 
 
         // return [

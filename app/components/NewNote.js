@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, Button, View, Text } from 'react-native';
 // import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation';
 import { connect } from 'react-redux'
-import { addNote } from '../actions'
+import { addNote, editNote } from '../actions'
 import { StatusBar } from 'react-native'
 
 class NewNote extends React.Component {
@@ -13,8 +13,8 @@ class NewNote extends React.Component {
         this.state = {
             // postTitle: '',
             // postNote: '',
-            postTitle: this.props.todoList[0]?.editTitle ? this.props.todoList[0].editTitle :  '',
-            postNote: this.props.todoList[0]?.editText ? this.props.todoList[0].editText :  '',
+            postTitle: this.props.todoList[this.props.editingId]?.postTitle ? this.props.todoList[this.props.editingId].postTitle : '',
+            postNote: this.props.todoList[this.props.editingId]?.postNote ? this.props.todoList[this.props.editingId].postNote : '',
             // id: this.props.todoList[0]?.editId ? this.props.todoList[0].editId :  '',
 
             // postTitle: (typeof this.props.todoList[0].editTitle === 'undefined') ? '' : this.props.todoList[0].editTitle,
@@ -68,7 +68,11 @@ class NewNote extends React.Component {
             if (postNote == '')
                 postNote = "Untitled"
 
-            this.props.dispatch(addNote(postTitle, postNote, noteDate))
+            this.props.isEditing ?
+                this.props.dispatch(editNote(this.props.editingId, postTitle, postNote, noteDate))
+                :
+                this.props.dispatch(addNote(postTitle, postNote, noteDate))
+
             this.setState({ postTitle: '', postNote: '' })
 
             this.props.navigation.navigate('Home')
@@ -87,7 +91,7 @@ class NewNote extends React.Component {
                     barStyle='light-content'
                 />
 
-                {console.log('edit', this.props.todoList)}
+                {console.log('edit', this.props.todoList[this.props.editingId]?.postTitle)}
 
                 <TextInput
                     style={styles.title}
@@ -99,7 +103,7 @@ class NewNote extends React.Component {
                     value={this.state.postTitle}
                     // value={postTitle}
                     onChangeText={(postTitle) => this.setState({ postTitle })}
-                    // onChangeText={(postTitle) => this.setState({ postTitle: postTitle })}
+                // onChangeText={(postTitle) => this.setState({ postTitle: postTitle })}
 
                 >
                 </TextInput>
@@ -116,7 +120,7 @@ class NewNote extends React.Component {
                     value={this.state.postNote}
                     // value={postText}
                     onChangeText={(postNote) => this.setState({ postNote })}
-                    // onChangeText={(postText) => this.setState({ postNote: postText })}
+                // onChangeText={(postText) => this.setState({ postNote: postText })}
                 >
                 </TextInput>
 
@@ -124,7 +128,7 @@ class NewNote extends React.Component {
                     style={styles.addNote}
                     title="Save"
                     // onPress={() => this.props.navigation.navigate('Home')}
-                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote, this.state.id)}
+                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote)}
                 />
 
             </View>
@@ -135,9 +139,15 @@ class NewNote extends React.Component {
 
 function mapStateToProps(state) {
     const { todos } = state
-    console.log("mapState: ", todos)
-    return { todoList: todos, editId: todos.id }
+    const { visibilityFilter } = state
+    console.log("mapState: ", visibilityFilter)
+    return { todoList: todos, editId: todos.id, editingId: visibilityFilter.editingId, isEditing: visibilityFilter.isEditing }
 }
+
+// const mapStateToProps = state => ({
+//     todoList: state.todos,
+//     isEditing: state.visibilityFilter.isEditing
+// })
 
 //   const mapDispatchToProps = dispatch => ({
 //     editNote: (postTitle,postNote) => dispatch(editNote(postTitle,postNote))

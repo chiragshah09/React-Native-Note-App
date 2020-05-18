@@ -9,7 +9,7 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar } from 'react-native'
 import { BackHandler } from 'react-native';
 import TodoList from './TodoList';
-
+import { addNote1 } from '../actions'
 
 class Main extends React.Component {
 
@@ -50,11 +50,11 @@ class Main extends React.Component {
     // componentWillMount() {
     //     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     // }
-    
+
     // componentWillUnmount() {
     //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     // }
-    
+
     // handleBackButtonClick() {
     //     this.props.navigation.goBack(null);
     //     return true;
@@ -141,15 +141,28 @@ class Main extends React.Component {
                     <Text style={styles.addButtonText}>+</Text>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('NewNote')} style={styles.addButton}>
+                <TouchableOpacity
+                    onPress={() => {
+                        // this.props.isEditing = false
+                        this.props.navigation.navigate('NewNote')
+                        // addNote1
+                    }}
+                style={styles.addButton}
+                >
                     <Text style={styles.addButtonText}>+</Text>
                 </TouchableOpacity>
             </View>
         );
     }
 }
+function mapStateToProps(state) {
+    const { todos } = state
+    const { visibilityFilter } = state
+    console.log("mapState: ", visibilityFilter)
+    return { todoList: todos, editId: todos.id, editingId: visibilityFilter.editingId, isEditing: visibilityFilter.isEditing }
+}
 
-export default connect()(Main)
+export default connect(mapStateToProps)(Main)
 
 const styles = StyleSheet.create({
     container: {
