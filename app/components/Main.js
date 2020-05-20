@@ -89,13 +89,17 @@ class Main extends React.Component {
         //         deleteMethod={() => this.deleteNote(key)} />
         // })
 
-        const { navigation } = this.props;
+        const { navigation, route } = this.props;
         // const { updateIsEditing } = updateIsEditing
         const updateIsEditing = (flag) => this.props.updateIsEditing(flag);
         const updateEditId = (id) => this.props.updateEditId(id);
-        return (
 
+        const { toggleValue } = route.params;
+        console.log('gauri', this.props.route.params.toggleValue)
+        return (
+            
             <View style={styles.container}>
+            {console.log('tvalue', toggleValue)}
                 <StatusBar
                     //   hidden={true}
                     backgroundColor={'#115ead'}

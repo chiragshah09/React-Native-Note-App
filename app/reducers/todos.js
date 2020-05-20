@@ -21,7 +21,7 @@ export default function todos(state = [], action) {
                     postTitle: action.postTitle,
                     postNote: action.postNote,
                     noteDate: action.noteDate,
-                    bookmarked: false,
+                    bookmarked: action.bookmarkValue,
                     
                     // editTitle: '',
                     // editTextL: ''
@@ -31,7 +31,7 @@ export default function todos(state = [], action) {
         case 'EDIT_NOTE':
             return state.map(todo =>
                 (todo.id === action.id)
-                    ? { ...todo, id: action.id, postTitle: action.postTitle, postNote: action.postNote } : todo)
+                    ? { ...todo, id: action.id, postTitle: action.postTitle, postNote: action.postNote, bookmarked: action.bookmarkValue } : todo)
 
         // case 'UPDATE_EDIT_ID':
         //     return [

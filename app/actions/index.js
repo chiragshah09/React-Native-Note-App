@@ -14,12 +14,13 @@ export const toggleTodo = (id) => ({
     id
 })
 
-export const addNote = (postTitle, postNote, noteDate) => ({
+export const addNote = (postTitle, postNote, noteDate, bookmarkValue) => ({
     type: ADD_NOTE,
     id: todoID++,
     postTitle,
     postNote,
-    noteDate
+    noteDate,
+    bookmarkValue
 })
 
 // export const editNote = (id, postTitle, postNote, noteDate) => ({
@@ -29,12 +30,13 @@ export const addNote = (postTitle, postNote, noteDate) => ({
 //     editText: postNote,
 // })
 
-export const editNote = (id, postTitle, postNote, noteDate) => ({
+export const editNote = (id, postTitle, postNote, noteDate, bookmarkValue) => ({
     type: EDIT_NOTE,
     id: id,
     postTitle: postTitle,
     postNote: postNote,
     noteDate: noteDate,
+    bookmarkValue
 })
 
 export const updateEditId = (id) => ({

@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, Button, View, Text } from 'react-native';
 // import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation';
 import { connect } from 'react-redux'
-import { addNote, editNote } from '../actions'
+import { addNote, editNote, toggleTodo } from '../actions'
 import { StatusBar } from 'react-native'
 
 class NewNote extends React.Component {
@@ -39,8 +39,12 @@ class NewNote extends React.Component {
     //     return null;
     // }
 
-    addNote = (postTitle, postNote) => {
+    addNote = (postTitle, postNote, bookmarkValue) => {
         console.log(postTitle, postNote)
+
+        // const { route, navigation } = this.props;
+        // const { bookmarkValue } = route.params;
+
         // var id = this.props.todoList[0]?.editId ? this.props.todoList[0].editId :  ''
         // if (this.state.text) {
         //     var d = new Date()
@@ -80,13 +84,14 @@ class NewNote extends React.Component {
                 postNote = "Untitled"
 
             this.props.isEditing ?
-                this.props.dispatch(editNote(this.props.editingId, postTitle, postNote, noteDate))
+                this.props.dispatch(editNote(this.props.editingId, postTitle, postNote, noteDate, bookmarkValue))
 
                 :
-                this.props.dispatch(addNote(postTitle, postNote, noteDate))
+                this.props.dispatch(addNote(postTitle, postNote, noteDate, bookmarkValue))
 
             this.setState({ postTitle: '', postNote: '' })
 
+            // this.props.dispatch(toggleTodo(bookmarkValue))
             this.props.navigation.navigate('Home')
         }
     }
@@ -94,6 +99,10 @@ class NewNote extends React.Component {
     render() {
         // const postTitle = this.props.todoList[0]?.editTitle ? this.props.todoList[0].editTitle :  ''
         // const postText = this.props.todoList[0]?.editText ? this.props.todoList[0].editText :  ''
+        const { route, navigation } = this.props;
+
+        const { bookmarkValue } = route.params;
+
         return (
             // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={styles.container}>
@@ -103,7 +112,7 @@ class NewNote extends React.Component {
                     barStyle='light-content'
                 />
 
-                {console.log('edit', this.props.todoList[this.props.editingId]?.postTitle)}
+                {console.log('edit', bookmarkValue)}
 
                 <TextInput
                     style={styles.title}
@@ -140,7 +149,7 @@ class NewNote extends React.Component {
                     style={styles.addNote}
                     title="Save"
                     // onPress={() => this.props.navigation.navigate('Home')}
-                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote)}
+                    onPress={() => this.addNote(this.state.postTitle, this.state.postNote, bookmarkValue)}
                 />
 
             </View>
@@ -163,6 +172,9 @@ function mapStateToProps(state) {
 
 //   const mapDispatchToProps = dispatch => ({
 //     editNote: (postTitle,postNote) => dispatch(editNote(postTitle,postNote))
+// })
+// const mapDispatchToProps = dispatch => ({
+//     toggleTodo: id => dispatch(toggleTodo(id))
 // })
 
 export default connect(mapStateToProps)(NewNote)
